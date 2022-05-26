@@ -6,7 +6,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -27,6 +26,8 @@ class BasicPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double wight = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Facebook profile'),
@@ -60,12 +61,14 @@ class BasicPage extends StatelessWidget {
                 children: [
                   Row(
                     children: const [
+                      Spacer(),
                       Text(
                         "Théo TRUVELOT",
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
+                      Spacer(),
                     ],
                   ),
                   const SizedBox(height: 5),
@@ -96,7 +99,44 @@ class BasicPage extends StatelessWidget {
                 color: Colors.white24,
               ),
             ),
-            sectionTitleText("A propos de moi")
+            sectionTitleText("A propos de moi"),
+            aboutRow(icon: Icons.work, text: "Ouest Isol"),
+            aboutRow(icon: Icons.favorite, text: "En couple"),
+            aboutRow(icon: Icons.location_city, text: "Rouen"),
+            const Divider(
+              thickness: 2,
+              color: Colors.white24,
+            ),
+            sectionTitleText("Mes amis"),
+            // ignore: sized_box_for_whitespace
+            Container(
+              height: height * 0.2,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Row(
+                    children: [
+                      columnFriend(
+                          image: "images/cat.jpg",
+                          name: "jean",
+                          width: wight / 3),
+                      columnFriend(
+                          image: "images/sunflower.jpg",
+                          name: "jean",
+                          width: wight / 3),
+                      columnFriend(
+                          image: "images/duck.jpg",
+                          name: "jean",
+                          width: wight / 3),
+                      columnFriend(
+                          image: "images/cat.jpg",
+                          name: "jean",
+                          width: wight / 3),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -134,11 +174,50 @@ class BasicPage extends StatelessWidget {
 
   Widget sectionTitleText(String text) {
     return Padding(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.only(top: 5, left: 10, bottom: 10),
       child: Text(
         text,
         style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
       ),
+    );
+  }
+
+  Widget aboutRow({required IconData icon, required String text}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: Row(
+        children: [
+          Icon(icon, size: 16, color: Colors.grey),
+          const SizedBox(width: 5),
+          Text(
+            text,
+            style: const TextStyle(fontSize: 14),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column columnFriend(
+      {required String image, required String name, required double width}) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            width: width,
+            height: width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              image: DecorationImage(
+                image: AssetImage(image),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        Text(name)
+      ],
     );
   }
 }
